@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.buffer</OriginalElement>
+  <nodes>
+    <node x="0.0" y="344.0">io.netty.buffer.UnpooledUnsafeHeapByteBuf</node>
+    <node x="766.0" y="344.0">io.netty.buffer.PooledDirectByteBuf</node>
+    <node x="655.25" y="86.0">io.netty.buffer.AbstractByteBuf</node>
+    <node x="724.6875" y="258.0">io.netty.buffer.UnpooledUnsafeDirectByteBuf</node>
+    <node x="258.99999999999994" y="430.0">io.netty.buffer.PooledUnsafeHeapByteBuf</node>
+    <node x="1010.6874999999999" y="258.0">io.netty.buffer.UnpooledDirectByteBuf</node>
+    <node x="592.75" y="172.0">io.netty.buffer.AbstractReferenceCountedByteBuf</node>
+    <node x="23.0" y="258.0">io.netty.buffer.UnpooledHeapByteBuf</node>
+    <node x="498.99999999999994" y="344.0">io.netty.buffer.PooledUnsafeDirectByteBuf</node>
+    <node x="682.75" y="0.0">io.netty.buffer.ByteBuf</node>
+    <node x="543.6874999999999" y="258.0">io.netty.buffer.PooledByteBuf</node>
+    <node x="281.99999999999994" y="344.0">io.netty.buffer.PooledHeapByteBuf</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.buffer.AbstractReferenceCountedByteBuf" target="io.netty.buffer.AbstractByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledHeapByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="131.0" y="228.0" />
+      <point x="629.375" y="228.0" />
+      <point x="-109.875" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.PooledDirectByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="866.5" y="319.0" />
+      <point x="677.8541666666665" y="319.0" />
+      <point x="53.66666666666663" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.AbstractByteBuf" target="io.netty.buffer.ByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.PooledUnsafeHeapByteBuf" target="io.netty.buffer.PooledHeapByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledUnsafeDirectByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="857.6875" y="238.0" />
+      <point x="775.875" y="238.0" />
+      <point x="36.625" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.PooledByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="624.1874999999999" y="238.0" />
+      <point x="702.625" y="238.0" />
+      <point x="-36.625" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.PooledHeapByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="380.49999999999994" y="319.0" />
+      <point x="570.5208333333333" y="319.0" />
+      <point x="-53.66666666666663" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledUnsafeHeapByteBuf" target="io.netty.buffer.UnpooledHeapByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.PooledUnsafeDirectByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="622.5" y="319.0" />
+      <point x="624.1874999999999" y="319.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledDirectByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-18.0" />
+      <point x="1120.6875" y="228.0" />
+      <point x="849.125" y="228.0" />
+      <point x="109.875" y="18.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="595.0" y="233.0" />
+  <SelectedNodes>
+    <node>io.netty.buffer.PooledUnsafeDirectByteBuf</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

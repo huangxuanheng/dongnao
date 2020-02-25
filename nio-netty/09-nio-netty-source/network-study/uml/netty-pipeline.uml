@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.channel</OriginalElement>
+  <nodes>
+    <node x="2.5" y="258.0">io.netty.channel.DefaultChannelHandlerContext</node>
+    <node x="323.0" y="86.0">io.netty.channel.ChannelPipeline</node>
+    <node x="24.0" y="0.0">io.netty.channel.ChannelOutboundInvoker</node>
+    <node x="298.0" y="172.0">io.netty.channel.DefaultChannelPipeline</node>
+    <node x="27.5" y="86.0">io.netty.channel.ChannelHandlerContext</node>
+    <node x="0.0" y="172.0">io.netty.channel.AbstractChannelHandlerContext</node>
+    <node x="283.25" y="0.0">io.netty.channel.ChannelInboundInvoker</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.channel.AbstractChannelHandlerContext" target="io.netty.channel.ChannelHandlerContext">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.DefaultChannelHandlerContext" target="io.netty.channel.AbstractChannelHandlerContext">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.ChannelHandlerContext" target="io.netty.channel.ChannelOutboundInvoker">
+      <point x="-55.75" y="-18.0" />
+      <point x="-59.25" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.ChannelPipeline" target="io.netty.channel.ChannelOutboundInvoker">
+      <point x="-43.0" y="-18.0" />
+      <point x="366.0" y="56.0" />
+      <point x="201.75" y="56.0" />
+      <point x="59.25" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.ChannelHandlerContext" target="io.netty.channel.ChannelInboundInvoker">
+      <point x="55.75" y="-18.0" />
+      <point x="194.75" y="66.0" />
+      <point x="339.5" y="66.0" />
+      <point x="-56.25" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.ChannelPipeline" target="io.netty.channel.ChannelInboundInvoker">
+      <point x="43.0" y="-18.0" />
+      <point x="56.25" y="18.0" />
+    </edge>
+    <edge source="io.netty.channel.DefaultChannelPipeline" target="io.netty.channel.ChannelPipeline">
+      <point x="0.0" y="-18.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="260.0" y="147.0" />
+  <SelectedNodes>
+    <node>io.netty.channel.DefaultChannelHandlerContext</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
