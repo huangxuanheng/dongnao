@@ -1,0 +1,17 @@
+
+spring:
+  kafka:
+    bootstrap-servers: 192.168.100.12:9092,192.168.100.12:9093,192.168.100.12:9094
+    producer:     
+      acks: all
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      # sample_03 事务需要
+      #transaction-id-prefix: tx.    
+      # sample_02 单独使用的
+      properties: 
+        spring.json.type.mapping: foo:com.study.kafka.spring.sample_01_pub_sub.common.Foo1,bar:com.study.kafka.spring.sample_02_multi_method_listener.common.Bar1
+    consumer: 
+      group-id: myGroup
+      # sample_03 事务需要
+      #properties:
+      #  isolation.level: read_committed

@@ -1,0 +1,18 @@
+
+spring:
+  activemq:
+    broker-url: tcp://mq.study.com:61616
+    pool:
+      enabled: true
+      max-connections: 50
+    #user: admin
+    #password: secret
+  
+#数据源参数配置
+spring.datasource: 
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: root
+    
+
+    

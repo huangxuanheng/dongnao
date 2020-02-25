@@ -1,0 +1,12 @@
+sudo sh lvs_dr.sh start 192.168.120.200 80 "192.168.120.124 192.168.120.103" enp0s3:0
+sudo sh lvs_dr.sh stop enp0s3:0
+
+sudo sh lvs_rs.sh start 192.168.120.200 enp0s3:0
+sudo sh lvs_rs.sh stop enp0s3:0
+
+rs 192.168.43.130 192.168.43.114
+
+sudo sh lvs_dr.sh start 192.168.43.200 80 "192.168.43.130 192.168.43.114"
+sudo sh lvs_dr.sh stop
+
+sudo sh lvs_rs.sh start 192.168.43.200

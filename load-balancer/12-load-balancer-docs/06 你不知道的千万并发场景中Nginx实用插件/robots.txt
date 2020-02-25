@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /data/www/styles
+Disallow: /data/www/scripts
+Disallow: /data/www/images
