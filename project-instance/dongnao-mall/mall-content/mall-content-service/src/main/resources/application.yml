@@ -1,0 +1,106 @@
+server:
+  port: 8081
+
+#logging:
+#  level:
+#    root: debug
+#    org.springframework: info
+    
+spring:
+  activemq:
+    broker-url: tcp://192.168.100.100:61616
+    user: admin
+    password: admin
+
+  redis:
+    database: 0
+    host: 192.168.100.101
+    password: redis123456
+    port: 6379
+    timeout: 0
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: 1
+#    cluster:
+#      nodes:
+#      - 
+#    sentinel:
+#      master: 
+#      nodes:
+#      - 
+  
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      #基本属性 url、user、password
+      url: jdbc:mysql://mysql.dn.com:3306/dn_mall?characterEncoding=utf-8&useSSL=false
+      username: root
+      password: root
+      #配置 初始化大小、最小、最大
+      initial-size: 2
+      min-idle: 1
+      max-active: 20
+      #配置获取连接等待超时的时间
+      max-wait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置监控统计拦截的filters
+      filters: stat,wall,config
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      
+      #配置 Druid 监控信息显示页面
+      stat-view-servlet:
+        #允许清空统计数据
+        enabled: false
+        #allow: 127.0.0.1
+        #deny: 192.168.1.73
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+        url-pattern: /druid/*
+      #WebStatFilter用于采集web-jdbc关联监控的数据
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        url-pattern: /*
+        
+mybatis:
+    type-aliases-package: com.dongnaoedu.mall.manager.pojo
+    mapper-locations: classpath:com/dongnaoedu/mall/manager/mapper/*.xml
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    
+#商城首页缓存key
+#PRODUCT_HOME: PRODUCT_HOME
+#商品详情缓存前缀
+#PRODUCT_ITEM: PRODUCT_ITEM
+#商品详情缓存过期时间 一周(实际建议2小时)
+#ITEM_EXPIRE: 604800
+
+#导航栏板块表id
+#HEADER_PANEL_ID: 0
+#导航栏板块缓存key
+#HEADER_PANEL: HEADER_PANEL
+#推荐商品板块表id
+#RECOMEED_PANEL_ID: 6
+#推荐商品板块缓存key
+#RECOMEED_PANEL: RECOMEED_PANEL
+#捐赠商品板块表id
+#THANK_PANEL_ID: 4
+#捐赠商品板块缓存key
+#THANK_PANEL: THANK_PANEL

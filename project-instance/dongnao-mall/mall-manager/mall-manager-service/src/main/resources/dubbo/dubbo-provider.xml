@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.CountService" ref="countService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.DictService" ref="dictService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.ExpressService" ref="expressService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.ItemCatService" ref="itemCatService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.ItemService" ref="itemService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.MemberService" ref="memberService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.OrderService" ref="orderService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.SystemService" ref="systemService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.ThanksService" ref="thanksService" />
+	<dubbo:service interface="com.dongnaoedu.mall.manager.service.UserService" ref="userService" />
+
+</beans>
+

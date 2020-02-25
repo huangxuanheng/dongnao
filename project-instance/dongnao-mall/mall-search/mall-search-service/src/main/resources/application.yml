@@ -1,0 +1,84 @@
+server:
+  port: 8082
+
+#logging:
+#  level:
+#    root: debug
+#    org.springframework: info
+
+spring:
+  activemq:
+    broker-url: tcp://192.168.100.100:61616
+    user: admin
+    password: admin
+
+  redis:
+    database: 0
+    host: 192.168.100.101
+    password: redis123456
+    port: 6379
+    timeout: 0
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: 1
+#    cluster:
+#      nodes:
+#      - 
+#    sentinel:
+#      master: 
+#      nodes:
+#      - 
+  
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      #基本属性 url、user、password
+      url: jdbc:mysql://mysql.dn.com:3306/dn_mall?characterEncoding=utf-8&useSSL=false
+      username: root
+      password: root
+      #配置 初始化大小、最小、最大
+      initial-size: 2
+      min-idle: 1
+      max-active: 20
+      #配置获取连接等待超时的时间
+      max-wait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置监控统计拦截的filters
+      filters: stat,wall,config
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+mybatis:
+  type-aliases-package: com.dongnaoedu.mall.manager.dto.front
+  mapper-locations: classpath:com/dongnaoedu/mall/search/mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+    
+#ES连接IP
+ES_CONNECT_IP: 192.168.100.113
+
+#节点客户端端口
+ES_NODE_CLIENT_PORT: 9200
+        
+#ES集群名
+ES_CLUSTER_NAME: elasticsearch
+
+#ES商品索引
+ITEM_INDEX: item
+ITEM_TYPE: itemList

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 增加引用远程服务配置 可以和本地bean一样使用service
+     -->
+    <dubbo:reference interface="com.dongnaoedu.mall.search.service.SearchService" id="searchService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.content.service.ContentService" id="contentService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.RegisterService" id="registerService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.LoginService" id="loginService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.CartService" id="cartService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.OrderService" id="orderService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.AddressService" id="addressService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.sso.service.MemberService" id="memberService" check="false" />
+    <dubbo:reference interface="com.dongnaoedu.mall.manager.service.ThanksService" id="thanksService" check="false" />
+	
+	<!-- 因为 RedisTemplate 对事物支持有些问题，使用不当会造成困难。所以使用原生的jedis
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg name="host" value="192.168.100.101" />
+		<constructor-arg name="port" value="6379" />
+	</bean> -->
+	
+</beans>
