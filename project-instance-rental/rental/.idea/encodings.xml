@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-house" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-house/rental-house-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-house/rental-house-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-lang" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-uc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-uc/rental-uc-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-uc/rental-uc-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rental-web" charset="UTF-8" />
+  </component>
+</project>

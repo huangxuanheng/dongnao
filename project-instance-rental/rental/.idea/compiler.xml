@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="rental-lang" />
+        <module name="rental-web" />
+        <module name="rental-uc-api" />
+        <module name="rental-uc-provider" />
+        <module name="rental-house-provider" />
+        <module name="rental-house-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="rental" target="1.8" />
+      <module name="rental-house" target="1.8" />
+      <module name="rental-house-api" target="1.8" />
+      <module name="rental-house-provider" target="1.8" />
+      <module name="rental-lang" target="1.8" />
+      <module name="rental-uc" target="1.8" />
+      <module name="rental-uc-api" target="1.8" />
+      <module name="rental-uc-provider" target="1.8" />
+      <module name="rental-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

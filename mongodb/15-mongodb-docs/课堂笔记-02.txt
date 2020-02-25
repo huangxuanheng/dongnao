@@ -1,0 +1,13 @@
+﻿(1)client指定端口和ip连接mongodb
+./mongo localhost:27022
+
+(2)in语句示例：
+db.users.find({"username":{"$in":["lison","sean"]}})
+
+(3)not语句示例：
+db.users.find({"lenght":{"$not":{"$gte":1.77}}}).pretty()
+因为not语句 会把不包含查询语句字段的文档 也检索出来
+
+(4)exists语句示例：
+db.users.find({"lenght":{"$exists":true}}).pretty()
+判断文档有没有关心的字段

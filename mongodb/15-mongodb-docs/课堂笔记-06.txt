@@ -1,0 +1,76 @@
+1.通过start-mongodb-auth.sh启动mongodb
+2.数据库增加安全模式后，初始化一个“userAdminAnyDatabase”非常重要
+  通过客户端连接，使用admin数据库， 执行如下脚本：
+  db.createUser({'user':'boss22', 'pwd':'boss', 'roles':[{'role':'userAdminAnyDatabase', 'db':'admin'}]})
+  
+3.使用刚创建成功的用户登录：db.auth("boss","boss");
+4.切换到lison数据库（use lison），创建读写权限用户：
+db.createUser({'user':'lison','pwd':'lison','roles':[{'role':'readWrite','db':'lison'}]})
+5.使用读写权限用户lison登录，db.auth("lison","lison")，登录后测试;
+
+
+ps:也可以以非auth模式启动，然后创建用户后，用auth模式启动
+
+
+一.调优过程：
+
+1.测试语句
+ db.ordersTest.find({"useCode":"james", "orderTime" : 
+                   { "$lt" : new Date("2015-04-03T16:00:00.000Z")}}).explain('executionStats')
+2.新建第一个单键索引
+db.ordersTest.createIndex({"useCode":-1});
+3.新建一个复合索引
+db.ordersTest.createIndex({"useCode":-1,"orderTime":-1});
+4.演示复合索引的使用和索引的顺序是有关系的
+db.users.createIndex({username:1,age:-1})
+用了索引：db.users.find().sort({username:1,age:-1}).explain("executionStats") 
+          db.users.find().sort({username:-1,age:1}).explain("executionStats") 
+不用索引：db.users.find().sort({username:-1,age:-1}).explain("executionStats") 
+不用索引：db.users.find().sort({age:-1,username:1}).explain("executionStats") 
+
+
+
+二.复制集初始化
+rs.initiate({
+      _id: "configRS",
+      version: 1,
+      members: [{ _id: 0, host : "192.168.1.142:27017" }]});
+rs.add("192.168.1.142:27018");//有几个节点就执行几次方法
+rs.add("192.168.1.142:27019");//有几个节点就执行几次方法
+
+
+
+三.分片config复制集初始化
+rs.initiate({
+      _id: "shardingConfig",
+      version: 1,
+      members: [{ _id: 0, host : "192.168.1.142:27023" }]});
+rs.add("192.168.1.142:27022");//有几个节点就执行几次方法
+rs.add("192.168.1.142:27024");//有几个节点就执行几次方法
+
+四.分片配置步骤
+
+1.分片服务器配置：给27020、27021以及复制集（27017、27018、27019）的配置文件增加：
+	sharding:
+	   clusterRole: shardsvr
+
+2.config服务器配置：给复制集（27022、27023、27024）的配置文件增加：
+	sharding:
+	   clusterRole: configsvr
+3.启动mongos路由如下：
+./mongos --configdb shardingConfig/192.168.1.142:27022,192.168.1.142:27023,192.168.1.142:27024 --port 27025     --logpath=/usr/local/apache/mongoDB/sharding/rounter/mongodb-rounter1/logs/mongodb.log
+
+4.配置sharding
+  1)连接mongos mongo --port 27025
+  2）增加分区：
+       use admin;
+	   sh.addShard("192.168.1.142:27020");
+	   sh.addShard("192.168.1.142:27021");
+	   sh.addShard("configRS/192.168.1.142:27017,192.168.1.142:27018,192.168.1.142:27019");
+  3)通过sh.status()或图形化工具查看分片结果
+  4）对lison数据库启用分片：sh.enableSharding("lison")
+  5）对ordersTest集合进行分片，分片键为{"useCode":1,"_id":1}
+     sh.shardCollection("lison.ordersTest",{"orderCode":1,"_id":1});
+	 
+  
+

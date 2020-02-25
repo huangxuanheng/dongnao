@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rental.iml" filepath="$PROJECT_DIR$/rental.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-house/rental-house.iml" filepath="$PROJECT_DIR$/rental-house/rental-house.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-house/rental-house-api/rental-house-api.iml" filepath="$PROJECT_DIR$/rental-house/rental-house-api/rental-house-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-house/rental-house-provider/rental-house-provider.iml" filepath="$PROJECT_DIR$/rental-house/rental-house-provider/rental-house-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-lang/rental-lang.iml" filepath="$PROJECT_DIR$/rental-lang/rental-lang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-uc/rental-uc.iml" filepath="$PROJECT_DIR$/rental-uc/rental-uc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-uc/rental-uc-api/rental-uc-api.iml" filepath="$PROJECT_DIR$/rental-uc/rental-uc-api/rental-uc-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-uc/rental-uc-provider/rental-uc-provider.iml" filepath="$PROJECT_DIR$/rental-uc/rental-uc-provider/rental-uc-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rental-web/rental-web.iml" filepath="$PROJECT_DIR$/rental-web/rental-web.iml" />
+    </modules>
+  </component>
+</project>

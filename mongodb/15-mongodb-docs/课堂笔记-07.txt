@@ -1,0 +1,44 @@
+﻿一.复制集初始化
+rs.initiate({
+      _id: "configRS",
+      version: 1,
+      members: [{ _id: 0, host : "192.168.1.142:27017" }]});
+rs.add("192.168.1.142:27018");//有几个节点就执行几次方法
+rs.add("192.168.1.142:27019");//有几个节点就执行几次方法
+
+
+二.分片config复制集初始化
+rs.initiate({
+      _id: "shardingConfig",
+      version: 1,
+      members: [{ _id: 0, host : "192.168.1.142:27023" }]});
+rs.add("192.168.1.142:27022");//有几个节点就执行几次方法
+rs.add("192.168.1.142:27024");//有几个节点就执行几次方法
+
+三.分片配置步骤
+
+1.分片服务器配置：给27020、27021以及复制集（27017、27018、27019）的配置文件增加：
+	sharding:
+	   clusterRole: shardsvr
+
+2.config服务器配置：给复制集（27022、27023、27024）的配置文件增加：
+	sharding:
+	   clusterRole: configsvr
+3.启动mongos路由如下：
+./mongos --configdb shardingConfig/192.168.1.142:27022,192.168.1.142:27023,192.168.1.142:27024 --port 27025     --logpath=/usr/local/apache/mongoDB/sharding/rounter/mongodb-rounter1/logs/mongodb.log
+
+4.配置sharding
+  1)连接mongos： mongo --port 27025
+  2）增加分区：
+       use admin;
+	   sh.addShard("192.168.1.142:27020");
+	   sh.addShard("192.168.1.142:27021");
+	   //configRS这个是复制集的名称
+	   sh.addShard("configRS/192.168.1.142:27017,192.168.1.142:27018,192.168.1.142:27019");
+  3)通过sh.status()或图形化工具查看分片结果
+  4）对lison数据库启用分片：sh.enableSharding("lison")
+  5）对ordersTest集合进行分片，分片键为{"useCode":1,"_id":1}
+     sh.shardCollection("lison.orders",{"useCode":1,"_id":1});
+	 
+  
+

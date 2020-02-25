@@ -1,0 +1,21 @@
+问题一：max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]
+问题二：max number of threads [1024] for user [lish] likely too low, increase to at least [2048]
+解决：修改切换到root用户修改配置limits.conf 添加下面两行
+命令:vi /etc/security/limits.conf
+*	hard	nofile	65536
+*   soft    nofile  65536
+*	hard 	nproc	4096
+*	soft	nproc	4096
+
+
+问题三：max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]
+解决：切换到root用户修改配置sysctl.conf
+vi /etc/sysctl.conf 
+添加下面配置：
+vm.max_map_count=655360
+
+并执行命令：
+sysctl -p
+
+切换到es的用户。
+然后，重新启动elasticsearch，即可启动成功。

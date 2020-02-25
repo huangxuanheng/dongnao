@@ -1,0 +1,164 @@
+ QuorumCnxManager
+ * This class implements a connection manager for leader election using TCP. It
+ * maintains one connection for every pair of servers. The tricky part is to
+ * guarantee that there is exactly one connection for every pair of servers that
+ * are operating correctly and that can communicate over the network.
+ 该类使用TCP实现领导人选举的连接管理器。它
+ 为每对服务器维护一个连接。棘手的部分是
+ 保证每一对服务器都有一个连接，这些服务器操作正确，并且可以通过网络进行通信。
+
+ * If two servers try to start a connection concurrently, then the connection
+ * manager uses a very simple tie-breaking mechanism to decide which connection
+ * to drop based on the IP addressed of the two parties. 
+如果两台服务器尝试同时启动连接，则连接
+管理器将使用非常简单的连接中断机制，根据双方的IP地址决定要删除哪个连接。
+
+ * For every peer, the manager maintains a queue of messages to send. If the
+ * connection to any particular peer drops, then the sender thread puts the
+ * message back on the list. As this implementation currently uses a queue
+ * implementation to maintain messages to send to another peer, we add the
+ * message to the tail of the queue, thus changing the order of messages.
+ * Although this is not a problem for the leader election, it could be a problem
+ * when consolidating peer communication. This is to be verified, though.
+
+ 对于每个对等点，管理器都维护要发送的消息队列。如果连接到任何特定的对等点，
+ 则发送方线程将消息重新放到列表中。由于该实现当前使用队列实现来维护消息发送到另一个对等点，
+ 因此我们将消息添加到队列的尾部，从而更改消息的顺序。虽然这不是领导人选举的问题，
+ 但在巩固同侪沟通时可能是个问题。不过，这是有待证实的。
+
+
+ QuorumCnxManager.Listener Leader选举端口监听线程
+
+addToRecvQueue(Message msg)方法
+Inserts an element in the {@link #recvQueue}. If the Queue is full, this
+* methods removes an element from the head of the Queue and then inserts
+* the element at the tail of the queue.
+在recvQueue中插入一个元素。如果队列已满，此方法将从队列的头部移除一个元素，然后将该元素插入队列的尾部。
+* This method is synchronized to achieve fairness between two threads that
+* are trying to insert an element in the queue. Each thread checks if the
+* queue is full, then removes the element at the head of the queue, and
+* then inserts an element at the tail. This three-step process is done to
+* prevent a thread from blocking while inserting an element in the queue.
+* If we do not synchronize the call to this method, then a thread can grab
+* a slot in the queue created by the second thread. This can cause the call
+* to insert by the second thread to fail.
+* Note that synchronizing this method does not block another thread
+* from polling the queue since that synchronization is provided by the
+* queue itself.
+此方法是同步的，以实现在队列中插入元素的两个线程之间的公平性。
+每个线程检查队列是否已满，然后删除队列顶部的元素，然后在尾部插入一个元素。
+这个三步进程是为了防止线程在队列中插入元素时阻塞。如果我们不同步对该方法的调用，
+那么一个线程可以在第二个线程创建的队列中获取一个插槽。这可能导致第二个线程插入的调用失败。
+请注意，同步此方法不会阻止另一个线程轮询队列，因为该同步是由队列本身提供的。
+
+
+ QuorumPeer
+ * This class manages the quorum protocol. There are three states this server
+ * can be in:
+该类管理Leader仲裁协议。服务器可以有三种状态：
+
+<ol>
+ * <li>Leader election - each server will elect a leader (proposing itself as a
+ * leader initially).</li>
+ * <li>Follower - the server will synchronize with the leader and replicate any
+ * transactions.</li>
+ * <li>Leader - the server will process requests and forward them to followers.
+ * A majority of followers must log the request before it can be accepted.
+ * </ol>
+领袖选举-每个服务器将选出一名领导者(最初建议自己为领导人)。
+追随者-服务器将与领导者同步并复制任何事务。
+领导人-服务器将处理请求并转发给追随者。大多数追随者必须记录请求才能被接受。
+
+
+ * This class will setup a datagram socket that will always respond with its
+ * view of the current leader. The response will take the form of:
+该类将设置一个数据报套接字，该套接字将始终响应当前领导人的视图。答复将采取以下形式：
+ * int xid;
+ * long myid;
+ * long leader_id;
+ * long leader_zxid;
+ 对现任领导人的请求将仅包括一个xid：int xid；
+
+
+ FastLeaderElection
+
+Implementation of leader election using TCP. It uses an object of the class
+ * QuorumCnxManager to manage connections. Otherwise, the algorithm is push-based
+ * as with the other UDP implementations.
+使用TCP实现领导人选举。它使用QuorumCnxManager类的一个对象来管理连接。
+另外，与其他UDP实现一样，该算法是基于推送的.
+
+There are a few parameters that can be tuned to change its behavior. First,
+ * finalizeWait determines the amount of time to wait until deciding upon a leader.
+ * This is part of the leader election algorithm.
+
+ 有几个参数可以被调优以改变它的行为。首先，FinalizeWait决定了等待决定领导者的时间。
+ 这是领导人选举算法的一部分。
+
+boolean totalOrderPredicate方法，是否赢得了选票
+检查一对(服务器id，zxid)是否成功进行当前投票。
+ 如果下列三种情况之一成立：
+ *1-新时代较高
+ *2-新时代与当前时代相同，而新zxid值较高
+ *3-新时代与当前时代相同，新zxid与当前zxid相同，而服务器id较高。
+
+boolean termPredicate方法，是否赢得大多数人的选票，如果是则则终止投票宣言
+Termination predicate. Given a set of votes, determines if
+* have sufficient to declare the end of the election round.
+是否终止选举宣言。给定一组选票，确定是否有足够的票数宣布选举结束。
+
+boolean checkLeader 检查该领导人是否已投票并表示其领先
+In the case there is a leader elected, and a quorum supporting
+* this leader, we have to check if the leader has voted and acked
+* that it is leading. We need this check to avoid that peers keep
+* electing over and over a peer that has crashed and it is no longer leading.
+如果有一位当选的领导人，并有法定人数支持这位领导人，我们必须检查该领导人是否已投票并表示其领先。
+我们需要这一检查，以避免同行不断进行选举，一遍又一遍，已经崩溃，它不再更领先。
+
+ If everyone else thinks I'm the leader, I must be the leader.
+* The other two checks are just for the case in which I'm not the
+* leader. If I'm not the leader and I haven't received a message
+* from leader stating that it is leading, then predicate is false.
+如果其他人都认为我是领导者，我一定是领导者。
+另外两个检查，针对我不是领导的情况。如果我不是领导者，也没有收到来自领导者的消息，
+说明它是领导，那么这个宣言是假的。
+
+boolean ooePredicate 方法
+
+This predicate checks that a leader has been elected. It doesn't
+* make a lot of sense without context (check lookForLeader) and it
+* has been separated for testing purposes.
+此宣言检查领导人是否已当选。没有上下文(Check lookForLeader)，这是没有意义的，
+而且为了测试目的，它已经分开了。
+
+Vote lookForLeader() 
+Starts a new round of leader election. Whenever our QuorumPeer
+* changes its state to LOOKING, this method is invoked, and it
+* sends notifications to all other peers.
+开始新一轮的领导人选举。每当我们的QuorumPeer将其状态更改为查找时，就会调用该方法，
+并且它向所有其他对等点发送通知。
+
+
+LeaderZooKeeperServer 
+Just like the standard ZooKeeperServer. We just replace the request
+ * processors: PrepRequestProcessor -> ProposalRequestProcessor ->
+ * CommitProcessor -> Leader.ToBeAppliedRequestProcessor ->
+ * FinalRequestProcessor
+就像标准的ZooKeeperServer一样。我们只是替换请求处理器：
+PrepRequestProcessor->ProposalRequestProcessor->
+RequestProcessor->Leader.ToBeAppliedRequestProcessor->
+FinalRequestProcessor
+
+RequestProcessor接口
+RequestProcessors被链接在一起处理事务。请求总是按顺序处理。独立服务器、跟随者和领导者*
+都有稍微不同的RequestProcessors链接在一起。*请求始终通过RequestProcessors链向前推进。
+请求*通过processRequest()传递给RequestProcessor。通常，方法*总是由单个线程调用。
+当调用关机时，RequestProcessor也应该关闭*连接到的任何RequestProcessors。
+	
+
+Request类
+这是表示在*RequestProcessors链中移动的请求的结构。在处理请求时，有各种信息被添加到请求中。	
+
+
+
+接口到服务器连接-表示从客户端*到服务器的连接。

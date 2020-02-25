@@ -1,0 +1,35 @@
+上次课遗留问题
+1.SPRING 写入的数据，_class字段修改后是否会影响到实体类的生成验证
+答：修改对代码没有影响
+
+2.convert代码示例
+答：spring 1.x版本没有提供对mongo decemal128数据默认的支持，所以需要自定义转换器进行转换；
+
+
+
+(1)查看一个人的信息，打开页面只显示三条评论,实现的语句：
+db.users.find({"username":"lison"},{"comments":{"$slice":[0,3]}}).pretty()
+点击评论的下一页按钮，新加载三条评论，实现的查询语句：
+不推荐：db.users.find({"username":"lison"},{"comments.lists":{"$slice":[0,3]},"comments":1}).pretty()
+推荐：db.users.find({"username":"lison"},{"comments":{"$slice":[3,3]},"$elemMatch":""}).pretty()
+
+
+
+
+
+
+
+
+
+
+
+
+第三天课程 遗留点
+
+db.users.find({"username":"lison"},{"comments":{"$slice":[3,3]},"$elemMatch":""}).pretty()
+代码实现
+
+$elemMatch改成这样就可以了query.fields().include("$elemMatch");
+
+
+

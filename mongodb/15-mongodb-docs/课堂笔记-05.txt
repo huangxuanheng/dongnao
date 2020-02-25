@@ -1,0 +1,25 @@
+1.通过start-mongodb-auth.sh启动mongodb
+2.数据库增加安全模式后，初始化一个“userAdminAnyDatabase”非常重要
+  通过客户端连接，使用admin数据库， 执行如下脚本：
+  db.createUser({'user':'boss22', 'pwd':'boss', 'roles':[{'role':'userAdminAnyDatabase', 'db':'admin'}]})
+  
+3.使用刚创建成功的用户登录：db.auth("boss","boss");
+4.切换到lison数据库（use lison），创建读写权限用户：db.createUser({'user':'lison','pwd':'lison','roles':[{'role':'readWrite','db':'lison'}]})
+5.使用读写权限用户lison登录，db.auth("lison","lison")，登录后测试;
+
+
+ps:也可以以非auth模式启动，然后创建用户后，用auth模式启动
+
+
+1.特别在生产环境，不要用kill -9关掉mongodb的进程，很可能造成mongodb的数据丢失；
+优雅的关机：
+
+（1）第一种方式
+
+use admin
+
+db.shutdownServer()
+
+
+（2）第二种方式
+mongod --shutdown -f mongodb.conf

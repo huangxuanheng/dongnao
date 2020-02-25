@@ -1,0 +1,46 @@
+实训脚本：
+（1）新增评论时，使用$sort运算符进行排序，插入评论后，再按照评论时间降序排序；
+    
+			db.users.updateOne({"username":"lison",},
+					{
+					  "$push": {
+						 "comments": {
+						   $each: [
+								{
+									"author" : "james",
+									"content" : "lison是个好老师！",
+									"commentTime" : ISODate("2018-01-06T04:26:18.354Z")
+								}
+							],
+						   $sort: {"commentTime":-1}
+						 }
+					  }
+					}
+				);
+				
+	注意：$sort操作符必须和$each配合使用
+
+（2）查看人员时加载最新的三条评论；
+	db.users.find({"username":"lison"},{"comments":{"$slice":[0,3]}}).pretty()
+	
+（3）点击评论的下一页按钮，新加载三条评论
+    原方法：db.users.find({"username":"lison"},{"comments":{"$slice":[3,3]},"$elemMatch":""}).pretty();
+	新的方法：db.users.find({"username":"lison"},{"comments":{"$slice":[3,3]},"$id":1}).pretty();
+	
+
+
+（4）如果有多种排序需求怎么处理？使用聚合
+db.users.aggregate([{"$match":{"username":"lison"}},
+                    {"$unwind":"$comments"},
+					{$sort:{"comments.commentTime":-1}},
+					{"$project":{"comments":1}},
+					{"$skip":6},
+					{"$limit":3}])
+----------------------------------------------------------------
+聚合训练：
+查询2015年4月3号之前，每个用户每个月消费了多少钱，并按用户名进行排序：
+db.ordersTest.aggregate([
+                          {"$match":{ "orderTime" : { "$lt" : new Date("2015-04-03T16:00:00.000Z")}}}, 
+						  {"$group":{"_id":{"useCode":"$useCode","month":{"$month":"$orderTime"}},"total":{"$sum":"$price"}}}, 
+						  {"$sort":{"_id":1}}    
+						])
